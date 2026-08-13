@@ -1,0 +1,44 @@
+{
+  "nodes": {
+    "flexoki-sublime": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1700674231,
+        "narHash": "sha256-37vCNLR3pMwzsDVekZmQbJF1YUV3PxVqgtTPhRs7KRk=",
+        "owner": "kepano",
+        "repo": "flexoki-sublime",
+        "rev": "833158b0db434eec5adf5282ee148ef7e873afc6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "kepano",
+        "repo": "flexoki-sublime",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1786599213,
+        "narHash": "sha256-yNJd40f11EzXBjSByCB7IPpeFFAdeoSKKM67dGkfFoU=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "0e251e24a4f24e036a084b6b4b2d2491af4167f4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "root": {
+      "inputs": {
+        "flexoki-sublime": "flexoki-sublime",
+        "nixpkgs": "nixpkgs"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}

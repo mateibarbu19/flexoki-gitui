@@ -1,0 +1,49 @@
+// Flexoki for GitUI — source template.
+//
+// Tokens below are Flexoki's semantic UI names ($bg, $ui-2, $tx-3, $re, ...).
+// Each variant resolves them to different tones, so edit this file rather than
+// anything in dist/, then regenerate with ./build.py.
+(
+    // Tabs
+    selected_tab: Some("$bl"),
+    block_title_focused: Some("$bl"),
+
+    // Command bar
+    command_fg: Some("$tx"),
+    cmdbar_bg: Some("$bg-2"),
+
+    // Selection
+    // use_selection_fg is false so a selected diff line keeps its add/delete
+    // color instead of being flattened to selection_fg.
+    selection_bg: Some("$ui-2"),
+    selection_fg: Some("$tx"),
+    use_selection_fg: Some(false),
+
+    // Diffs
+    diff_line_add: Some("$cy"),
+    diff_line_delete: Some("$re"),
+    diff_file_added: Some("$cy"),
+    diff_file_removed: Some("$re"),
+    diff_file_modified: Some("$ye"),
+    diff_file_moved: Some("$bl"),
+
+    // Commits
+    commit_hash: Some("$pu"),
+    commit_time: Some("$tx-2"),
+    commit_author: Some("$ye"),
+
+    // Branch/Tags
+    branch_fg: Some("$ma"),
+    tag_fg: Some("$pu"),
+
+    // Other UI
+    disabled_fg: Some("$tx-3"),
+    danger_fg: Some("$re"),
+    push_gauge_bg: Some("$ui"),
+    push_gauge_fg: Some("$bl"),
+
+    // Not a color: GitUI loads "<syntax>.tmTheme" from its own config folder,
+    // falling back to syntect's built-ins if that file is missing. Install the
+    // matching dist/*.tmTheme next to theme.ron.
+    syntax: Some("$syntax"),
+)
