@@ -40,14 +40,32 @@ a Flexoki terminal theme from
 
 ### home-manager
 
-```nix
-{
-  inputs.flexoki-gitui.url = "github:mateibarbu19/flexoki-gitui";
+Add the input in `flake.nix`:
 
-  xdg.configFile."gitui".source =
-    inputs.flexoki-gitui.packages.${pkgs.system}.dark;
+```nix
+inputs.flexoki-gitui.url = "github:mateibarbu19/flexoki-gitui";
+```
+
+Then, in a home-manager module that receives `inputs` — pass it through
+`extraSpecialArgs`:
+
+```nix
+{ pkgs, inputs, ... }:
+let
+  theme = inputs.flexoki-gitui.packages.${pkgs.system}.dark;
+in
+{
+  xdg.configFile = {
+    "gitui/theme.ron".source = "${theme}/theme.ron";
+    "gitui/flexoki-dark.tmTheme".source = "${theme}/flexoki-dark.tmTheme";
+  };
 }
 ```
+
+Linking the two files individually leaves `~/.config/gitui` writable for your
+own `key_bindings.ron`. Pointing `xdg.configFile."gitui".source` at the package
+instead symlinks the whole directory into the read-only store, which works but
+takes the folder over.
 
 `#light` and `#dark` are laid out exactly like GitUI's config folder. `#default`
 ships both variants under `share/flexoki-gitui/` instead.
@@ -57,10 +75,16 @@ ships both variants under `share/flexoki-gitui/` instead.
 Added lines are cyan rather than the conventional green, which keeps the
 add/delete pair legible under red-green color blindness.
 
-Two deliberate choices: `use_selection_fg` is `false`, so a selected diff line
-keeps its add/delete color instead of being flattened to `selection_fg`; and
-`disabled_fg` is faint on purpose (2.0:1 in light), because GitUI uses it for
-unfocused borders. Raise it to `$tx-2` if you want diff hunk headers louder.
+Two deliberate choices, each with a measured cost:
+
+- `use_selection_fg` is `false`, so a selected diff line keeps its add/delete
+  color instead of being flattened to `selection_fg`. The price is dark `$re` —
+  `danger_fg`, `diff_line_delete`, `diff_file_removed` — sitting at 2.91:1
+  against `selection_bg`, a hair under 3:1. Set it to `true` if you would
+  rather have the contrast than the color.
+- `disabled_fg` is faint on purpose — 2.00:1 in light, 2.61:1 in dark — because
+  GitUI uses it for unfocused borders. Raise it to `$tx-2` if you want diff
+  hunk headers louder.
 
 ## Development
 
