@@ -107,22 +107,26 @@ SUBLIME_FILES = {
     "dark": "Flexoki Dark.sublime-color-scheme",
 }
 
-# Sublime's globals are snake_case; TextMate's are camelCase. Keys absent here
-# have no TextMate equivalent (accent, fold_marker, block_caret, ...) and are
-# dropped rather than guessed at.
+# Sublime's globals are snake_case; TextMate's are camelCase. This covers every
+# global the upstream schemes set; anything they add later is skipped rather
+# than guessed at. GitUI reads only a handful of these — syntect ignores the
+# rest — but Sublime and bat do use them, so they are carried through.
 GLOBALS = {
     "background": "background",
     "foreground": "foreground",
     "caret": "caret",
+    "block_caret": "blockCaret",
     "invisibles": "invisibles",
     "line_highlight": "lineHighlight",
     "selection": "selection",
     "selection_border": "selectionBorder",
     "inactive_selection": "inactiveSelection",
+    "inactive_selection_border": "inactiveSelectionBorder",
     "inactive_selection_foreground": "inactiveSelectionForeground",
     "misspelling": "misspelling",
     "gutter": "gutter",
     "gutter_foreground": "gutterForeground",
+    "gutter_foreground_highlight": "gutterForegroundHighlight",
     "highlight": "highlight",
     "find_highlight": "findHighlight",
     "find_highlight_foreground": "findHighlightForeground",
@@ -136,8 +140,17 @@ GLOBALS = {
     "tags_foreground": "tagsForeground",
     "tags_options": "tagsOptions",
     "shadow": "shadow",
+    "shadow_width": "shadowWidth",
     "minimap_border": "minimapBorder",
+    "accent": "accent",
+    "fold_marker": "foldMarker",
+    "line_diff_added": "lineDiffAdded",
+    "line_diff_modified": "lineDiffModified",
 }
+
+# Globals whose value is a keyword or a number rather than a color.
+LITERAL_GLOBALS = ("brackets_options", "bracket_contents_options", "tags_options",
+                   "shadow_width")
 
 VAR = re.compile(r"var\(([^()]+)\)")
 ALPHA = re.compile(r"^color\(\s*(#[0-9A-Fa-f]{6})\s+alpha\(\s*([0-9.]+)\s*\)\s*\)$")
@@ -235,8 +248,7 @@ def build_tmtheme(sublime_dir: Path) -> None:
         variables = scheme.get("variables", {})
 
         def color(value: str, key: str = "") -> str:
-            # *_options hold style keywords ("underline"), not colors.
-            return value if key.endswith("_options") else resolve_color(value, variables)
+            return value if key in LITERAL_GLOBALS else resolve_color(value, variables)
 
         settings: list[dict] = [
             {
