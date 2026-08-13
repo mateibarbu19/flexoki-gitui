@@ -3,6 +3,9 @@
 An inky color scheme for prose and code — light and dark variants for
 [GitUI](https://github.com/gitui-org/gitui).
 
+*Disclaimer*: I have made this repo with Claude Opus 5. The end result looks
+good to me.
+
 ## Install
 
 The themes are generated rather than committed, so build them first. With Nix:
